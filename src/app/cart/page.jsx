@@ -1,10 +1,16 @@
-import Header from "@/app/components/Header";
+'use client'
 import Image from "next/image";
+import {useEffect} from "react";
 
 export default function Page() {
+
+    useEffect(() => {
+        const items = JSON.parse(localStorage.getItem("cartItems"));
+        console.log(items);
+    }, []);
+
     return (
         <>
-            <Header />
             <div className={"w-full flex flex-col items-center justify-center p-10"}>
                 <h1 className={"pl-10 py-5 w-full text-left text-2xl bg-primary-dark"}>Your Cart!</h1>
                 <CartItem />
