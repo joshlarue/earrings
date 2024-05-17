@@ -8,12 +8,8 @@ export default function Page({params}) {
     const [amountOfItems, setAmountOfItems] = useState(1);
     const [cartItems, setCartItems] = useState([]);
 
-    const setItemsInStorage = (cartItemsToStore) => {
-        localStorage.setItem("cartItems", JSON.stringify(cartItemsToStore));
-    }
-
     useEffect(() => {
-        setItemsInStorage(cartItems);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }, [cartItems]);
 
     const handleAddToCart = () => {
@@ -59,7 +55,6 @@ export default function Page({params}) {
                     <button onClick={decrementItems} className={"bg-core text-white rounded-full w-[2rem] h-[2rem] font-bold"}>-</button>
                     <p className={"font-bold text-xl"}>{amountOfItems}</p>
                     <button onClick={incrementItems} className={"bg-core text-white rounded-full w-[2rem] h-[2rem] font-bold"}>+</button>
-                    <button onClick={() => console.log(cartItems)}>cartItems</button>
                 </div>
             </>
         );
@@ -78,7 +73,7 @@ export default function Page({params}) {
                             <p className={"mb-10"}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                             <div className={"flex gap-5"}>
                                 <AmountIncrementer />
-                                <button onClick={handleAddToCart} className={"px-3 py-1 bg-secondary rounded-md hover:bg-accent"}>add to cart</button>
+                                <button onClick={handleAddToCart} className={"px-5 py-2 text-lg bg-secondary rounded-md hover:bg-accent"}>add to cart</button>
                             </div>
                         </div>
                     </div>
