@@ -6,10 +6,33 @@ import {useState} from "react";
 export default function Page({params}) {
     const [addedToCart, setAddedToCart] = useState(false);
     const [amountOfItems, setAmountOfItems] = useState(1);
+    const [cartItems, setCartItems] = useState([]);
+
     const handleAddToCart = () => {
-        localStorage.setItem(`${params.item}`, `${amountOfItems}`);
-        setAddedToCart(true);
-        console.log(localStorage.getItem(`${params.item}`));
+        // cartItems will need to be held and loaded from localStorage
+
+        // searches cartItems to see if the item being added already exists
+        let newItem = true;
+        for (let i = 0; i < cartItems.length; i++) {
+            if (cartItems[i].itemName === params.item) {
+                newItem = false;
+            }
+        }
+
+        // if it is a new entry, setCartItems with spreading syntax to add new item
+        if (newItem) {
+            setCartItems([...cartItems, {itemName: params.item, amountOfItems: amountOfItems}]);
+        } else {
+            // if not new entry, loop over cartItems and replace old amount with new amount
+            const newCartItems = cartItems.map(item => {
+                if (item.itemName === params.item) {
+                    return {itemName: params.item, amountOfItems: amountOfItems};
+                } else {
+                    return item;
+                }
+            });
+            setCartItems(newCartItems);
+        }
     }
 
     const AmountIncrementer = () => {
@@ -28,6 +51,7 @@ export default function Page({params}) {
                     <button onClick={decrementItems} className={"bg-core text-white rounded-full w-[2rem] h-[2rem] font-bold"}>-</button>
                     <p className={"font-bold text-xl"}>{amountOfItems}</p>
                     <button onClick={incrementItems} className={"bg-core text-white rounded-full w-[2rem] h-[2rem] font-bold"}>+</button>
+                    <button onClick={() => console.log(cartItems)}>cartItems</button>
                 </div>
             </>
         );
