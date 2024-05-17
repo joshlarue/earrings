@@ -1,12 +1,20 @@
 'use client'
 import Header from "@/app/components/Header";
 import Image from "next/image";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function Page({params}) {
     const [addedToCart, setAddedToCart] = useState(false);
     const [amountOfItems, setAmountOfItems] = useState(1);
     const [cartItems, setCartItems] = useState([]);
+
+    const setItemsInStorage = (cartItemsToStore) => {
+        localStorage.setItem("cartItems", JSON.stringify(cartItemsToStore));
+    }
+
+    useEffect(() => {
+        setItemsInStorage(cartItems);
+    }, [cartItems]);
 
     const handleAddToCart = () => {
         // cartItems will need to be held and loaded from localStorage
