@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function StoreItem() {
+export default function StoreItem({title,photo}) {
     return (
         <>
             <div
