@@ -12,22 +12,18 @@ export default function Page() {
         setStorageCartItems(items);
     }, []);
     useEffect(() => {
+      if (storageCartItems != null) {
         setCartItemsDisplay(storageCartItems.map((item, index) => {
             return <CartItem key={index} itemName={item.itemName} amount={item.amountOfItems} />;
-        }));
+          }
+        ));
+      }
     }, [storageCartItems]);
 
-    return (
-        <>
-            <div className={"w-full flex flex-col items-center justify-center p-10"}>
-                <h1 className={"pl-10 py-5 w-full text-left text-2xl bg-primary-dark"}>Your Cart!</h1>
-                {cartItemsDisplay}
-            </div>
-        </>
-    );
-}
-
-function CartItem({itemName, amountOfItems}) {
+  const handleRemove = (itemName) => {
+    setStorageCartItems(storageCartItems.filter(item => item.itemName != itemName));
+  }
+  const CartItem = ({itemName, amountOfItems}) => {
     return (
         <div className={"w-full bg-primary p-10 flex gap-10"}>
                 <Image className={"w-[50%] max-md:w-[100%] object-cover"} src={"/stock.jpeg"} alt={"temp stock photo"}
@@ -36,7 +32,7 @@ function CartItem({itemName, amountOfItems}) {
             <div className={"flex flex-col w-[50%] min-h-full justify-between"}>
                 <div className={"flex justify-between items-start"}>
                     <h2 className={"text-xl"}>{itemName}</h2>
-                    <button className={"bg-secondary-dark text-sm rounded-md text-primary font-bold px-4 py-2"}>remove
+                    <button onClick={() => handleRemove(itemName)} className={"bg-secondary-dark text-sm rounded-md text-primary font-bold px-4 py-2"}>remove
                     </button>
                 </div>
                 <div className={"flex items-center gap-10"}>
@@ -48,3 +44,15 @@ function CartItem({itemName, amountOfItems}) {
         </div>
     );
 }
+    return (
+        <>
+            <div className={"w-full flex flex-col items-center justify-center p-10"}>
+            {storageCartItems !== null ? <h1 className={"pl-10 py-5 w-full text-left text-2xl bg-primary-dark"}>Your Cart!</h1>
+              : <h1 className={"pl-10 py-5 w-full text-left text-2xl bg-primary-dark"}>Nothing in your cart yet!</h1>}
+                {cartItemsDisplay}
+            </div>
+        </>
+    );
+}
+
+
