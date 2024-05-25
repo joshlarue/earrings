@@ -1,9 +1,9 @@
 'use client'
 import {useState, useEffect} from "react";
 
-export default function IncrementAndAddToCart({product}) {
+export default function IncrementAndAddToCart({product, initNum, showAdd}) {
     const [addedToCart, setAddedToCart] = useState(false);
-    const [amountOfItems, setAmountOfItems] = useState(1);
+    const [amountOfItems, setAmountOfItems] = useState(initNum ? initNum : 1);
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
@@ -58,7 +58,11 @@ export default function IncrementAndAddToCart({product}) {
                         className={"bg-core text-white rounded-full w-[2rem] h-[2rem] font-bold"}>+
                 </button>
             </div>
-            <button onClick={handleAddToCart} className={"px-5 py-2 text-lg bg-secondary rounded-md hover:bg-accent"}>add to cart</button>
+      {
+        showAdd ?
+          <button onClick={handleAddToCart} className={"px-5 py-2 text-lg bg-secondary rounded-md hover:bg-accent"}>add to cart</button>
+        : null
+      }
             <button onClick={() => console.log(cartItems)} />
         </>
     );
