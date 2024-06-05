@@ -13,7 +13,7 @@ export default function Page() {
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     if (
       userName === process.env.NEXT_PUBLIC_ADMIN_USER &&
@@ -27,7 +27,9 @@ export default function Page() {
 
   const handleUserNameChange = (e) => setUserName(e.target.value);
   const handlePassChange = (e) => setPass(e.target.value);
-  const handleFileChange = (e) => setProductImage(e.target.files[0]);
+  const handleFileChange = async (e) => {
+    setProductImage(e.target.files[0]);
+  };
   const handlePreview = () =>
     setPreview(
       <ItemPage
@@ -36,17 +38,29 @@ export default function Page() {
         price={productPrice}
       />,
     );
+
   const handleProductTitleChange = (e) => setProductTitle(e.target.value);
   const handleProductDescriptionChange = (e) =>
     setProductDescription(e.target.value);
   const handleProductPriceChange = (e) => setProductPrice(e.target.value);
+
+  const publishListing = async (e) => {
+    e.preventDefault();
+    console.log(productImage);
+    const formData = new FormData();
+    formData.append("image", productImage);
+    await fetch("/api/createlisting", {
+      method: "POST",
+      body: formData,
+    });
+  };
 
   return (
     <>
       <div className="w-full flex flex-col items-center justify-center">
         {!loggedIn ? (
           <div className="w-fit bg-primary p-10 shadow-md">
-            <form className={"flex flex-col gap-1"} onSubmit={handleSubmit}>
+            <form className={"flex flex-col gap-1"} onSubmit={handleLogin}>
               <label htmlFor={"username"}>Username:</label>
               <input
                 onChange={handleUserNameChange}
@@ -128,6 +142,7 @@ export default function Page() {
               Preview Listing
             </button>
             <button
+              onClick={publishListing}
               className={"bg-secondary py-3 w-48 hover:bg-accent"}
               type={"submit"}
             >
