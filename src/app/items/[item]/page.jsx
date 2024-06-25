@@ -10,7 +10,7 @@ export default function Page({ params }) {
     </>
   );
 }
-export const ItemPage = ({ title, price, desc }) => {
+export const ItemPage = ({ title, price, desc, photoSrc }) => {
   return (
     <div className={"w-full h-full flex flex-col justify-center items-center"}>
       <div className={"w-[90%] bg-primary shadow-md p-10 flex flex-col"}>
@@ -18,7 +18,7 @@ export const ItemPage = ({ title, price, desc }) => {
         <div className={"flex max-md:flex-col gap-10"}>
           <Image
             className={"w-[50%] max-md:w-[100%] object-cover"}
-            src={"/stock.jpeg"}
+            src={photoSrc}
             alt={"temp stock photo"}
             width={1000}
             height={100}

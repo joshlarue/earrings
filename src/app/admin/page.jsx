@@ -6,9 +6,10 @@ import { ItemPage } from "@/app/items/[item]/page";
 export default function Page() {
   const [userName, setUserName] = useState("");
   const [pass, setPass] = useState("");
-  const [productImage, setProductImage] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [preview, setPreview] = useState(null);
+
+  const [productImage, setProductImage] = useState(null);
   const [productTitle, setProductTitle] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState("");
@@ -30,14 +31,17 @@ export default function Page() {
   const handleFileChange = async (e) => {
     setProductImage(e.target.files[0]);
   };
-  const handlePreview = () =>
+  const handlePreview = () => {
+    const imgBlobUrl = URL.createObjectURL(productImage);
     setPreview(
       <ItemPage
+        photoSrc={imgBlobUrl}
         title={productTitle}
         desc={productDescription}
         price={productPrice}
       />,
     );
+  };
 
   const handleProductTitleChange = (e) => setProductTitle(e.target.value);
   const handleProductDescriptionChange = (e) =>
@@ -46,9 +50,13 @@ export default function Page() {
 
   const publishListing = async (e) => {
     e.preventDefault();
-    console.log(productImage);
+
     const formData = new FormData();
     formData.append("image", productImage);
+    formData.append("title", productTitle);
+    formData.append("price", productPrice);
+    formData.append("description", productDescription);
+
     await fetch("/api/createlisting", {
       method: "POST",
       body: formData,
