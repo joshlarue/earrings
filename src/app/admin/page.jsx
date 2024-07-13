@@ -14,15 +14,22 @@ export default function Page() {
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (
-      userName === process.env.NEXT_PUBLIC_ADMIN_USER &&
-      pass === process.env.NEXT_PUBLIC_ADMIN_PASS
-    ) {
+
+    const formData = new FormData();
+    formData.append("userName", userName);
+    formData.append("password", pass);
+
+    const response = await fetch("/api/authenticate", {
+      method: "POST",
+      body: formData,
+    });
+    console.log(response);
+    const responseJson = await response.json();
+    console.log(responseJson);
+    if (responseJson.status === 200) {
       setLoggedIn(true);
-    } else {
-      console.log("error");
     }
   };
 
